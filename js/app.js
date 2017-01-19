@@ -24,33 +24,110 @@ var Recalls = React.createClass({
     var recallsTemplate = data.map(function(item, index) {
       return (
         <tr key={index}>
-          <td className="userNumber col-md-1">{index+1}</td>
-          <td className="userDate col-md-2">{item.userDate}</td>
-          <td className="userInfo col-md-4">{item.userInfo}</td>
-          <td className="userMessage col-md-5">{item.userMessage}</td>
+        <td className="userNumber col-md-1">{index+1}</td>
+        <td className="userDate col-md-2">{item.userDate}</td>
+        <td className="userInfo col-md-4">{item.userInfo}</td>
+        <td className="userMessage col-md-5">{item.userMessage}</td>
         </tr>
-      )
-    })
+        )
+      })
 
-    return (
+      return (
       <div className="recalls">
-        {recallsTemplate}
+      {recallsTemplate}
       </div>
-    );
-  }
-});
+      );
+    }
+  });
 
-var App = React.createClass({
-  render: function() {
-    return (
+  var App = React.createClass({
+    render: function() {
+      return (
       <div className="app">
-        <Recalls data={my_recalls} />
+      <Recalls data={my_recalls} />
       </div>
-    );
-  }
-});
+      );
+    }
+  });
 
-ReactDOM.render(
+  ReactDOM.render(
   <App />,
   document.getElementById('root')
-);
+  );
+
+  //form-hide
+
+  function isDefined(val) { return val != null; }
+
+  var ToggleDisplay = React.createClass({
+
+    propTypes: {
+      hide: React.PropTypes.bool,
+      show: React.PropTypes.bool
+    },
+
+    shouldHide: function() {
+      var shouldHide;
+      if(isDefined(this.props.show)) { 
+        shouldHide = !this.props.show;
+      }
+      else if(isDefined(this.props.hide)) {
+        shouldHide = this.props.hide;
+      }
+      else {
+        shouldHide = false;
+      }
+
+      return shouldHide;    
+    },
+
+    render: function() {
+      var style = {};
+
+      if(this.shouldHide()) {
+        style.display = 'none';
+      }
+
+      return (
+      <span style={style} {...this.props} />
+      );
+    }
+
+  });
+
+  var App2 = React.createClass({
+
+    getInitialState: function() {
+      return {
+        show: true
+      };
+    },
+    
+    handleClick: function() {
+      this.setState({ show: !this.state.show });
+    },
+
+    render: function() {
+      return (
+      <div>
+      <button onClick={ this.handleClick } type="button" className="btn btn-primary">Добавить отзыв</button>
+
+      <ToggleDisplay hide={this.state.show}>
+      <div className="col-md-12 text-center myForm topDown">
+      <div className="col-md-12 userInfo topDown">
+      <span className="col-md-12">Ваше ФИО</span>
+      <input type="text" required></input>
+      </div>
+      <div className="col-md-12 userMessage topDown">
+      <span className="col-md-12">Ваш отзыв</span>
+      <textarea className="form-control" rows="5" required></textarea>
+      </div>
+      <button type="button" onClick={ this.handleClick } className="btn btn-default btn-lg btn-block topDown">Оставить отзыв</button>
+      </div>
+      </ToggleDisplay>
+      </div>
+      );
+    }
+  });
+
+  React.render(<App2 />, document.getElementById('container'));
