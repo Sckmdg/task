@@ -17,116 +17,181 @@ var my_recalls = [
   userDate: '15.04.09'
   }
 ];
-
-
-
-var Recalls = React.createClass({
+for (var i = 0; i < my_recalls.length; i++) {
+  my_recalls[i].userId = i;
+}
+window.ee = new EventEmitter();
+var Article = React.createClass({
+propTypes: {
+  data: React.PropTypes.shape({
+    userInfo: React.PropTypes.string.isRequired,
+    userMessage: React.PropTypes.string.isRequired,
+    userId: React.PropTypes.number.isRequired,
+    userDate: React.PropTypes.string.isRequired,
+  })
+},
 render: function() {
-    var data = this.props.data;
-    var recallsTemplate = data.map(function(item, index) {
+var userInfo = this.props.data.userInfo,
+    userMessage = this.props.data.userMessage,
+    userId = this.props.data.userId,
+    userDate = this.props.data.userDate;
+
       return (
-      <tr key={index}>
-        <td className="userNumber col-md-1">{index+1}</td>
-        <td className="userDate col-md-2">{item.userDate}</td>
-        <td className="userInfo col-md-4">{item.userInfo}</td>
-        <td className="userMessage col-md-5">{item.userMessage}</td>
+      <tr className='article'>
+        <td className="userNumber col-md-1">{userId+1}</td>
+        <td className="userDate col-md-2">{userDate}</td>
+        <td className="userInfo col-md-4">{userInfo}</td>
+        <td className="userMessage col-md-5">{userMessage}</td>
       </tr>
       )
-    })
+    }
+    });
+
+    var Recalls = React.createClass({
+      propTypes: {
+        data: React.PropTypes.array.isRequired
+      },
+    render: function() {
+      var data = this.props.data;
+      var recallsTemplate;
+
+    if (data.length > 0) {
+      recallsTemplate = data.map(function(item, index) {
+        return (
+          <div key={index}>
+            <Article data={item} />
+          </div>
+        )
+      })
+    } else {
+      newsTemplate = <p>Записей не имеется</p>
+    }
 
     return (
-    <div className="recalls">
-      {recallsTemplate}
-    </div>
+      <div className='recalls'>
+        {recallsTemplate}
+      </div>
+    );
+  }
+});
+
+var Add = React.createClass({
+  getInitialState: function() { 
+      return {
+        userInfoIsEmpty: true,
+        userDateIsEmpty: true,
+        userMessageIsEmpty: true
+      };
+    },
+
+  componentDidMount: function() {
+    ReactDOM.findDOMNode(this.refs.userInfo).focus();
+  },
+
+  onBtnClickHandler: function(e) {
+    e.preventDefault();
+    var userInfo = ReactDOM.findDOMNode(this.refs.userInfo).value;
+    var userDate = ReactDOM.findDOMNode(this.refs.userDate).value;
+    var userMessage = ReactDOM.findDOMNode(this.refs.userMessage).value;
+    var item = [{
+      userInfo: userInfo,
+      userDate: userDate,
+      userMessage: userMessage
+    }];
+    window.ee.emit('Recalls.add', item);
+  },
+
+  onFieldChange: function(fieldName, e) {
+      if (e.target.value.trim().length > 0) {
+        this.setState({['' +fieldName]: false})
+      } else {
+        this.setState({['' +fieldName]: true})
+      }
+    },
+
+  render: function() {
+    var userInfoIsEmpty = this.state.userInfoIsEmpty,
+        userDateIsEmpty = this.state.userDateIsEmpty,
+        userMessageIsEmpty = this.state.userMessageIsEmpty;
+    return (
+      <form className='add cf col-md-12 topDown'>
+        <span className='col-md-12 topDown'>
+        <input
+          type='text'
+          className='addUserInfo col-md-2'
+          onChange={this.onFieldChange.bind(this, 'userInfoIsEmpty')}
+          placeholder='Ваше ФИО'
+          ref='userInfo'
+        />
+        </span>
+        <span className='col-md-12 topDown'>
+        <input type="text"
+          type='date'
+          className='addUserDate col-md-2'
+          onChange={this.onFieldChange.bind(this, 'userDateIsEmpty')}
+          placeholder='Введите дату'
+          ref='userDate'
+          />
+          </span>
+        <span className='col-md-12 topDown'>
+        <textarea
+          className='addUserMessage col-md-2'
+          rows="4"
+          onChange={this.onFieldChange.bind(this, 'userMessageIsEmpty')}
+          placeholder='Ваш отзыв'
+          ref='userMessage'
+        ></textarea>
+      </span>
+        <span className='col-md-12 topDown'>
+        <button
+          type="button"
+          className='addBtn btn btn-success'
+          onClick={this.onBtnClickHandler}
+          ref='alert_button'
+          disabled={userInfoIsEmpty || userMessageIsEmpty || userDateIsEmpty}
+          >
+          Добавить отзыв
+        </button>
+      </span>
+      </form>
     );
   }
 });
 
 var App = React.createClass({
-  render: function() {
-    return (
-    <div className="app">
-      <Recalls data={my_recalls} />
-    </div>
-    );
-  }
-});
-
-//form-hide
-
-function isDefined(val) { return val != null; }
-
-var ToggleDisplay = React.createClass({
-
-  propTypes: {
-    hide: React.PropTypes.bool,
-    show: React.PropTypes.bool
-  },
-
-  shouldHide: function() {
-    var shouldHide;
-    if(isDefined(this.props.show)) { 
-      shouldHide = !this.props.show;
-    }
-    else if(isDefined(this.props.hide)) {
-      shouldHide = this.props.hide;
-    }
-    else {
-      shouldHide = false;
-    }
-
-    return shouldHide;    
-  },
-
-  render: function() {
-    var style = {};
-
-    if(this.shouldHide()) {
-      style.display = 'none';
-    }
-
-    return (
-      <span style={style} {...this.props} />
-    );
-  }
-
-});
-
-var App2 = React.createClass({
-
-  getInitialState: function() {
-    return {
-      show: true
+  getInitialState: function(){
+    return{
+      recalls: my_recalls
     };
   },
-
-  handleClick: function() {
-    this.setState({ show: !this.state.show });
+  componentDidMount: function(){
+    var self = this;
+    window.ee.addListener('Recalls.add', function(item){
+    var nextRecalls = item.concat(self.state.recalls);
+    self.setState({recalls: nextRecalls});
+    })
   },
-
-  addButton: function () {
-    this.setState({ show: !this.state.show });
-    console.log('saySomething');
+  componentWillUnmount: function(){
+    window.ee.removeListener('Recalls.add');
   },
-
   render: function() {
     return (
-    <div>
-      <button onClick={ this.handleClick } type="button" className="btn btn-primary">Добавить отзыв</button>
-      <ToggleDisplay hide={this.state.show}>
-        <form className="col-md-12 text-center myForm topDown">
-          <div className="col-md-12 userInfo topDown">
-            <span className="col-md-12">Ваше ФИО</span>
-            <input type="text" required></input>
-          </div>
-          <div className="col-md-12 userMessage topDown">
-            <span className="col-md-12">Ваш отзыв</span>
-            <textarea className="form-control" rows="5" required></textarea>
-          </div>
-          <button onClick={ this.addButton } type="button" className="btn btn-primary btn-lg btn-block topDown">Оставить отзыв</button>
-        </form>
-      </ToggleDisplay>
-    </div>
+      <div className='app'>
+        <Add />
+        <table className="table">
+          <thead>
+            <tr>
+              <th className="col-md-1 userNumber">№</th>
+              <th className="col-md-2 userDate">Дата</th>
+              <th className="col-md-4 userInfo">ФИО</th>
+              <th className="col-md-5 userMessage">Отзыв</th>
+            </tr>
+          </thead>
+          <tbody>
+            <Recalls data={this.state.recalls} />
+          </tbody>
+        </table>
+      </div>
     );
   }
 });
@@ -134,9 +199,4 @@ var App2 = React.createClass({
 ReactDOM.render(
 <App />,
 document.getElementById('root')
-);
-
-ReactDOM.render(
-<App2 />,
-document.getElementById('container')
 );
