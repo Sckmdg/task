@@ -17,6 +17,7 @@ var my_recalls = [
   userDate: '15.04.09'
   }
 ];
+console.log(my_recalls);
 for (var i = 0; i < my_recalls.length; i++) {
   my_recalls[i].userId = i;
 }
@@ -37,12 +38,12 @@ var userInfo = this.props.data.userInfo,
     userDate = this.props.data.userDate;
 
       return (
-      <tr className='article'>
-        <td className="userNumber col-md-1">{userId+1}</td>
-        <td className="userDate col-md-2">{userDate}</td>
-        <td className="userInfo col-md-4">{userInfo}</td>
-        <td className="userMessage col-md-5">{userMessage}</td>
-      </tr>
+      <div className='article'>
+        <div className="userNumber col-md-1">{userId+1}</div>
+        <div className="userDate col-md-2">{userDate}</div>
+        <div className="userInfo col-md-4">{userInfo}</div>
+        <div className="userMessage col-md-5">{userMessage}</div>
+      </div>
       )
     }
     });
@@ -93,7 +94,9 @@ var Add = React.createClass({
     var userInfo = ReactDOM.findDOMNode(this.refs.userInfo).value;
     var userDate = ReactDOM.findDOMNode(this.refs.userDate).value;
     var userMessage = ReactDOM.findDOMNode(this.refs.userMessage).value;
+
     var item = [{
+      userId: my_recalls.length,
       userInfo: userInfo,
       userDate: userDate,
       userMessage: userMessage
@@ -177,20 +180,8 @@ var App = React.createClass({
   render: function() {
     return (
       <div className='app'>
-        <Add />
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="col-md-1 userNumber">№</th>
-              <th className="col-md-2 userDate">Дата</th>
-              <th className="col-md-4 userInfo">ФИО</th>
-              <th className="col-md-5 userMessage">Отзыв</th>
-            </tr>
-          </thead>
-          <tbody>
             <Recalls data={this.state.recalls} />
-          </tbody>
-        </table>
+            <Add />
       </div>
     );
   }
