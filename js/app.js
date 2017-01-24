@@ -91,9 +91,12 @@ var Add = React.createClass({
 
   onBtnClickHandler: function(e) {
     e.preventDefault();
-    var userInfo = ReactDOM.findDOMNode(this.refs.userInfo).value;
-    var userDate = ReactDOM.findDOMNode(this.refs.userDate).value;
-    var userMessage = ReactDOM.findDOMNode(this.refs.userMessage).value;
+    var userMessageCase = ReactDOM.findDOMNode(this.refs.userMessage);
+    var userInfoCase = ReactDOM.findDOMNode(this.refs.userInfo);
+    var userDateCase = ReactDOM.findDOMNode(this.refs.userDate);
+    var userMessage = userMessageCase.value;
+    var userInfo = userInfoCase.value;
+    var userDate = userDateCase.value;
 
     var item = [{
       userId: my_recalls.length,
@@ -102,6 +105,12 @@ var Add = React.createClass({
       userMessage: userMessage
     }];
     window.ee.emit('Recalls.add', item);
+    userMessageCase.value = '';
+    userInfoCase.value = '';
+    userDateCase.value = '';
+    this.setState({userMessageIsEmpty: true});
+    this.setState({userInfoIsEmpty: true});
+    this.setState({userDateIsEmpty: true});
   },
 
   onFieldChange: function(fieldName, e) {
