@@ -170,7 +170,8 @@ var App = React.createClass({
   componentDidMount: function(){
     var self = this;
     window.ee.addListener('Recalls.add', function(item){
-    var nextRecalls = item.concat(self.state.recalls);
+    var nextRecalls = self.state.recalls.concat(item);
+    my_recalls = item.concat(self.state.recalls);
     self.setState({recalls: nextRecalls});
     })
   },
