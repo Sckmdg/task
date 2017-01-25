@@ -1,7 +1,21 @@
 'use strict';
 
 var my_recalls = [
-
+{
+  userInfo: 'Аминов Рустам Равильевич',
+  userMessage: 'Lorem ipsum',
+  userDate: '10.11.12'
+},
+{
+  userInfo: 'Какой-то Такой-то Тотович',
+  userMessage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat voluptate ipsam porro eius impedit! Facilis voluptatem at nesciunt sequi labore aliquam be',
+  userDate: '12.08.17'
+},
+{
+  userInfo: 'Просто Рандомный бред',
+  userMessage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat voluptate ipsam porro eius impedit! Facilis voluptatem at nesciunt sequi labore aliquam beatae exercitationem voluptatibus fugit, nulla animi incidunt hic natus quam!',
+  userDate: '15.04.09'
+}
 ];
 console.log(my_recalls);
 for (var i = 0; i < my_recalls.length; i++) {
