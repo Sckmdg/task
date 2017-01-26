@@ -3,17 +3,17 @@ var my_recalls = [ //Начальный массив
 {
   info: 'Аминов Рустам Равильевич',
   message: 'Lorem ipsum',
-  date: '10.11.12'
+  date: '2012-11-12'
 },
 {
   info: 'Какой-то Такой-то Тотович',
   message: 'Lorem ipsum be',
-  date: '12.08.17'
+  date: '2015-08-17'
 },
 {
   info: 'Просто Рандомный бред',
   message: 'Lorem ipsum doluptate ipsam ponesciunt sequi labore  hic natus quam!',
-  date: '15.04.09'
+  date: '2005-04-09'
 }
 ];
 for (var i = 0; i < my_recalls.length; i++) { //Добавил id к каждой записи
@@ -125,60 +125,59 @@ var Add = React.createClass({                         //Создаем App на�
     messageIsEmpty = this.state.messageIsEmpty;
     return (
       <form className='add cf col-md-12 topDown'>
-      <span className='col-md-12 topDown'>
-      <input
-      type='text'
-      className='addinfo col-md-2'
-      onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}//Привязываем поле на момент изменения
-      placeholder='Ваше ФИО'
-      ref='info'
-      />
-      </span>
-      <span className='col-md-12 topDown'>
-      <input type="text"
-      type='date'
-      className='adddatecol-md-2'
-      onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
-      placeholder='Введите дату'
-      ref='date'
-      />
-      </span>
-      <span className='col-md-12 topDown'>
-      <textarea
-      className='addmessage col-md-2'
-      rows="4"
-      onChange={this.onFieldChange.bind(this, 'messageIsEmpty')}
-      placeholder='Ваш отзыв'
-      ref='message'
-      ></textarea>
-      </span>
-      <span className='col-md-12 topDown'>
-      <button
-      type="button"
-      className='addBtn btn btn-success'
-      onClick={this.onBtnClickHandler}
-      ref='alert_button'
-      disabled={infoIsEmpty || messageIsEmpty || dateIsEmpty} //дизейблит кнопку если хотя бы одно свойство true
-      >
-      Добавить отзыв
-      </button>
-      </span>
+        <span className='col-md-12 topDown'>
+          <input
+          type='text'
+          className='addinfo col-md-2'
+          onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}//Привязываем поле на момент изменения
+          placeholder='Ваше ФИО'
+          ref='info'/>
+        </span>
+
+        <span className='col-md-12 topDown'>
+          <input type="text"
+          type='date'
+          className='adddatecol-md-2'
+          onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
+          placeholder='Введите дату'
+          ref='date'/>
+        </span>
+
+        <span className='col-md-12 topDown'>
+          <textarea
+          className='addmessage col-md-2'
+          rows="4"
+          onChange={this.onFieldChange.bind(this, 'messageIsEmpty')}
+          placeholder='Ваш отзыв'
+          ref='message'>
+          </textarea>
+        </span>
+
+        <span className='col-md-12 topDown'>
+          <button
+          type="button"
+          className='addBtn btn btn-success'
+          onClick={this.onBtnClickHandler}
+          disabled={infoIsEmpty || messageIsEmpty || dateIsEmpty}>
+          Добавить отзыв
+          </button>
+        </span>
       </form>
       );
   }
 });
 
 var App = React.createClass({
-  getInitialState: function(){                            //Начальное состояние App - начальный массив
+  getInitialState: function(){   //Начальное состояние App - задаем recalls начальный массив
     return{
       recalls: my_recalls
     };
   },
   componentDidMount: function(){
     var self = this;                                      
-    window.ee.addListener('Recalls.add', function(item){
-      var nextRecalls = self.state.recalls.concat(item);
-      my_recalls = item.concat(self.state.recalls);
+    window.ee.addListener('Recalls.add', function(item){ //Как только App смотнировался добавляем Listener
+      var nextRecalls = self.state.recalls.concat(item); //добавляем запись в массив
+      my_recalls = item.concat(self.state.recalls);   
       self.setState({recalls: nextRecalls});
     })
   },
