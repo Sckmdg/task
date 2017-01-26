@@ -1,5 +1,8 @@
 'use strict';
-var my_recalls = [ //Начальный массив
+/**
+*Начальный массив
+*/
+var my_recalls = [ 
 {
   info: 'Аминов Рустам Равильевич',
   message: 'Lorem ipsum',
@@ -16,12 +19,20 @@ var my_recalls = [ //Начальный массив
   date: '2005-04-09'
 }
 ];
-for (var i = 0; i < my_recalls.length; i++) { //Добавил id к каждой записи
+/**
+*Добавил id к каждой записи
+*/
+for (var i = 0; i < my_recalls.length; i++) {
   my_recalls[i].id = i;
 }
-window.ee = new EventEmitter();               //Глобальная переменная из EventEmitter, нужна для onBtnClickHandler
-var Article = React.createClass({             //Создаем Article, ему в Proptypes указываем data->внутри неё форма со всей инфо объекта             
-  propTypes: {                                //у свойств которых указываем тип данных и что они необходимы
+/**
+*Глобальная переменная из EventEmitter, нужна для onBtnClickHandler
+*Создаем Article, ему в Proptypes указываем data->внутри неё форма со всей инфо объекта             
+*у свойств которых указываем тип данных и что они необходимы
+*/
+window.ee = new EventEmitter();               
+var Article = React.createClass({            
+  propTypes: {                               
     data: React.PropTypes.shape({
       info: React.PropTypes.string.isRequired,
       message: React.PropTypes.string.isRequired,
@@ -38,23 +49,27 @@ var Article = React.createClass({             //Создаем Article, ему �
     return (
       <div className='article'>
       <div className="number col-md-1">{id+1}</div>
-      <div className="date col-md-2">{date}</div>
-      <div className="info col-md-4">{info}</div>
+      <div className="date col-md-3">{date}</div>
+      <div className="info col-md-3">{info}</div>
       <div className="message col-md-5">{message}</div>
       </div>
       )
   }
 });
-
-var Recalls = React.createClass({             //Внутри Recalls рендерится каждый Article 
+/**
+*Внутри Recalls рендерится каждый Article 
+*/
+var Recalls = React.createClass({             
   propTypes: {
     data: React.PropTypes.array.isRequired
   },
   render: function() {
     var data = this.props.data;
     var recallsTemplate;
-
-    if (data.length) {                    //Добавляем уникальный key оборачивая каждый Article
+    /**
+    *Добавляем уникальный key оборачивая каждый Article
+    */
+    if (data.length) {                   
       recallsTemplate = data.map(function(item, index) {
         return (
           <div key={index}>                  
@@ -73,46 +88,60 @@ var Recalls = React.createClass({             //Внутри Recalls ренде�
       );
   }
 });
-
-var Add = React.createClass({                         //Создаем App начальные свойства которой говорят что данные для ввода пустые
+/**
+*Создаем App начальные свойства которой говорят что данные для ввода пустые
+*/
+var Add = React.createClass({                        
   getInitialState: function() { 
     return {
       infoIsEmpty: true,
-      dateIsEmpty: true,
       messageIsEmpty: true
     };
   },
-
-  componentDidMount: function() {                              //Компонент примонтировался
-    ReactDOM.findDOMNode(this.refs.info).focus();              //и здесь мы фокусим refs на info
+  /**
+  *Компонент примонтировался
+  *и здесь мы фокусим refs на info
+  */
+  componentDidMount: function() {                              
+    ReactDOM.findDOMNode(this.refs.info).focus();              
   },
-
-  onBtnClickHandler: function(e) {                             //Создаем функцию используя переменную e из EventEmitter
+  /**
+  *Создаем функцию используя переменную e из EventEmitter
+  *Case нужен для очистки формы ввода после добавления
+  */
+  onBtnClickHandler: function(e) {                             
     e.preventDefault();
-    var messageCase = ReactDOM.findDOMNode(this.refs.message); //Case нужен для очистки формы ввода после добавления
+    var messageCase = ReactDOM.findDOMNode(this.refs.message); 
     var infoCase = ReactDOM.findDOMNode(this.refs.info);
-    var dateCase = ReactDOM.findDOMNode(this.refs.date);
     var message = messageCase.value;                          
     var info = infoCase.value;
-    var date= dateCase.value;
-
-    var item = [{                                             //Добавлять запись будем как раз через item
+    var now = new Date();
+    console.log(now)
+    /**
+    *Добавлять запись будем как раз через item
+    */
+    var item = [{                                          
       id: my_recalls.length,
       info: info,
-      date: date,
+      date: now.toString(),
       message: message
     }];
-    window.ee.emit('Recalls.add', item);  //Генерирует событие Recalls.add и в качетсве свойства дает item
-    messageCase.value = '';               //Опустошаем поля ввода
+    /**
+    *Генерирует событие Recalls.add и в качетсве свойства дает item
+    *Опустошаем поля ввода
+    */
+    window.ee.emit('Recalls.add', item);  
+    messageCase.value = '';            
     infoCase.value = '';
-    dateCase.value = '';
     this.setState({messageIsEmpty: true});
     this.setState({infoIsEmpty: true});
-    this.setState({dateIsEmpty: true});
   },
-
-  onFieldChange: function(fieldName, e) {   //Проверяет если поля пустые или ничего не ввели(включая пробел)
-    if (e.target.value.trim().length) {     //кнопка дизейблится
+  /**
+  *Проверяет если поля пустые или ничего не ввели(включая пробел)
+  *кнопка дизейблится
+  */
+  onFieldChange: function(fieldName, e) {   
+    if (e.target.value.trim().length) {
       this.setState({['' +fieldName]: false})
     } else {
       this.setState({['' +fieldName]: true})
@@ -121,7 +150,6 @@ var Add = React.createClass({                         //Создаем App на�
 
   render: function() {
     var infoIsEmpty = this.state.infoIsEmpty,
-    dateIsEmpty = this.state.dateIsEmpty,
     messageIsEmpty = this.state.messageIsEmpty;
     return (
       <form className='add cf col-md-12 topDown'>
@@ -129,18 +157,9 @@ var Add = React.createClass({                         //Создаем App на�
           <input
           type='text'
           className='addinfo col-md-2'
-          onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}//Привязываем поле на момент изменения
+          onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}
           placeholder='Ваше ФИО'
           ref='info'/>
-        </span>
-
-        <span className='col-md-12 topDown'>
-          <input type="text"
-          type='date'
-          className='adddatecol-md-2'
-          onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
-          placeholder='Введите дату'
-          ref='date'/>
         </span>
 
         <span className='col-md-12 topDown'>
@@ -158,7 +177,7 @@ var Add = React.createClass({                         //Создаем App на�
           type="button"
           className='addBtn btn btn-success'
           onClick={this.onBtnClickHandler}
-          disabled={infoIsEmpty || messageIsEmpty || dateIsEmpty}>
+          disabled={infoIsEmpty || messageIsEmpty}>
           Добавить отзыв
           </button>
         </span>
@@ -166,17 +185,23 @@ var Add = React.createClass({                         //Создаем App на�
       );
   }
 });
-
+/**
+*Начальное состояние App - задаем recalls начальный массив
+*/
 var App = React.createClass({
-  getInitialState: function(){   //Начальное состояние App - задаем recalls начальный массив
+  getInitialState: function(){ 
     return{
       recalls: my_recalls
     };
   },
+  /**
+  *Как только App смотнировался добавляем Listener
+  *добавляем запись в массив
+  */
   componentDidMount: function(){
     var self = this;                                      
-    window.ee.addListener('Recalls.add', function(item){ //Как только App смотнировался добавляем Listener
-      var nextRecalls = self.state.recalls.concat(item); //добавляем запись в массив
+    window.ee.addListener('Recalls.add', function(item){ 
+      var nextRecalls = self.state.recalls.concat(item); 
       my_recalls = item.concat(self.state.recalls);   
       self.setState({recalls: nextRecalls});
     })
