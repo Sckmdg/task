@@ -10,3 +10,6 @@
 	margin-top: 10px;
 	margin-bottom: 10px;  
 }
+.date, .number, .info, .message{
+	min-height: 50px;
+}

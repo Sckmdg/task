@@ -3,21 +3,7 @@
 *Начальный массив
 */
 var my_recalls = [ 
-{
-  info: 'Аминов Рустам Равильевич',
-  message: 'Lorem ipsum',
-  date: '2012-11-12'
-},
-{
-  info: 'Какой-то Такой-то Тотович',
-  message: 'Lorem ipsum be',
-  date: '2015-08-17'
-},
-{
-  info: 'Просто Рандомный бред',
-  message: 'Lorem ipsum doluptate ipsam ponesciunt sequi labore  hic natus quam!',
-  date: '2005-04-09'
-}
+
 ];
 /**
 *Добавил id к каждой записи
@@ -116,7 +102,6 @@ var Add = React.createClass({
     var message = messageCase.value;                          
     var info = infoCase.value;
     var now = new Date();
-    console.log(now)
     /**
     *Добавлять запись будем как раз через item
     */
@@ -126,6 +111,30 @@ var Add = React.createClass({
       date: now.toString(),
       message: message
     }];
+    // function sendData(responce) {
+    //     $.ajax({
+    //         url: 'http://test1.levin.personal.kg.sibers.com/api.php/messages',
+    //         type: 'POST',
+    //         data: { json: JSON.stringify(item)},
+    //         dataType: 'json',
+    //         succes: function(responce){
+    //           console.log("succes");
+    //         }
+    //     });
+    // }
+    $.ajax({
+        url: "http://test1.levin.personal.kg.sibers.com/api.php/messages",
+        type: "GET",
+        crossDomain: true,
+        data: { json: JSON.stringify(item)},
+        dataType: "jsonp",
+        success:function(result){
+            alert(JSON.stringify(result));
+        },
+        error:function(xhr,status,error){
+            alert(status);
+        }
+    });
     /**
     *Генерирует событие Recalls.add и в качетсве свойства дает item
     *Опустошаем поля ввода
