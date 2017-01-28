@@ -81,6 +81,7 @@ var Add = React.createClass({
   getInitialState: function() { 
     return {
       infoIsEmpty: true,
+      dateIsEmpty: true,
       messageIsEmpty: true
     };
   },
@@ -99,8 +100,10 @@ var Add = React.createClass({
     e.preventDefault();
     var messageCase = ReactDOM.findDOMNode(this.refs.message); 
     var infoCase = ReactDOM.findDOMNode(this.refs.info);
+    var dateCase = ReactDOM.findDOMNode(this.refs.date);
     var message = messageCase.value;                          
     var info = infoCase.value;
+    var date= dateCase.value;
     var now = new Date();
     /**
     *Добавлять запись будем как раз через item
@@ -108,8 +111,9 @@ var Add = React.createClass({
     var item = [{                                          
       id: my_recalls.length,
       info: info,
-      date: now.toString(),
-      message: message
+      date: date,
+      message: message,
+      created_at: now.toString()
     }];
     // function sendData(responce) {
     //     $.ajax({
@@ -142,6 +146,7 @@ var Add = React.createClass({
     window.ee.emit('Recalls.add', item);  
     messageCase.value = '';            
     infoCase.value = '';
+    dateCase.value = '';
     this.setState({messageIsEmpty: true});
     this.setState({infoIsEmpty: true});
   },
@@ -159,6 +164,7 @@ var Add = React.createClass({
 
   render: function() {
     var infoIsEmpty = this.state.infoIsEmpty,
+    dateIsEmpty = this.state.dateIsEmpty,
     messageIsEmpty = this.state.messageIsEmpty;
     return (
       <form className='add cf col-md-12 topDown'>
@@ -169,6 +175,15 @@ var Add = React.createClass({
           onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}
           placeholder='Ваше ФИО'
           ref='info'/>
+        </span>
+
+        <span className='col-md-12 topDown'>
+         <input type="text"
+          type='date'
+          className='adddatecol-md-2'
+          onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
+          placeholder='Введите дату'
+          ref='date'/>
         </span>
 
         <span className='col-md-12 topDown'>
@@ -186,7 +201,7 @@ var Add = React.createClass({
           type="button"
           className='addBtn btn btn-success'
           onClick={this.onBtnClickHandler}
-          disabled={infoIsEmpty || messageIsEmpty}>
+          disabled={infoIsEmpty || messageIsEmpty || dateIsEmpty}>
           Добавить отзыв
           </button>
         </span>
