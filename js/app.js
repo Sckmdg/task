@@ -2,9 +2,37 @@
 /**
 *Начальный массив
 */
+$.ajax({
+  url: 'http://test1.levin.personal.kg.sibers.com/api.php/messages/list',
+  dataType: 'jsonp',
+  jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
+  success: function(data){
+    // we make a successful JSONP call!
+  }
+});
+$(document).ready(function() {
+    $.ajax({type: "POST",
+            crossDomain : true,
+            url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+            data: {method: "getQuote",format: "jsonp",lang: "en"},
+            dataType: "jsonp",
+            jsonp: "jsonp",
+            jsonpCallback: "myJsonMethod"
+    }); 
+});
+function myJsonMethod(response){
+  console.log (response);
+}
+$(document).ready(function() {
+    $.getJSON("http://test1.levin.personal.kg.sibers.com/api.php/messages/list");
+});
+function myJsonMethod(response){
+  console.log (response);
+}
 var my_recalls = [ 
 
 ];
+
 /**
 *Добавил id к каждой записи
 */
