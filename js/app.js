@@ -71,6 +71,9 @@ var Recalls = React.createClass({
     data: React.PropTypes.array.isRequired
   },
   render: function() {
+    /**
+    *Или сюда аякс *_* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    */
     var data = this.props.data;
     var recallsTemplate;
     /**
@@ -131,17 +134,19 @@ var Add = React.createClass({
     */
     var item = [{                                          
       id: my_recalls.length,
+      message: message,
       info: info,
       date: date,
-      message: message,
       created_at: now.toString(),
       updated_at: now.toString()
     }];
+    console.log(JSON.stringify(item));
+    console.log(JSON.stringify(my_recalls[0]));
       $.ajax({
-          url: 'http://test1.levin.personal.kg.sibers.com/api.php/messages',
-          type: 'POST',
+          url: "http://test1.levin.personal.kg.sibers.com/api.php/messages",
+          type: "POST",
           data: { jsonp: JSON.stringify(item)},
-          dataType: 'jsonp',
+          dataType: "jsonp",
           jsonp: "callback",
           crossDomain: true,
           succes: function(data){
@@ -237,7 +242,7 @@ var App = React.createClass({
   */
   componentDidMount: function(){
     /**
-    Место для вставления аякса - ибо родительский контейнер
+    Место для вставления аякса - ибо родительский контейнер !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     */
     var self = this;                                      
     window.ee.addListener('Recalls.add', function(item){ 
