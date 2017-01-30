@@ -2,9 +2,9 @@
 var my_recalls = [];
 
 var script = $("<script />", {
-    src: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
-    type: "text/javascript"
-  }
+  src: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+  type: "text/javascript"
+}
 );
 
 $("head").append(script);
@@ -16,12 +16,15 @@ $.ajax({
   url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
   jsonp: "callback",
   dataType: "jsonp",
-  success: function(data) { console.log(data); },
+  success: function(data) {
+    my_recalls.push.apply(my_recalls, data);
+    return my_recalls;
+  },
   error:function(result, status, error){
-      console.log(status + "; " + error);
+    console.log(status + "; " + error);
+    console.log(result);
   }
-})
-
+});
 /**
 *Добавил id к каждой записи
 */
@@ -49,6 +52,7 @@ var Article = React.createClass({
     id = this.props.data.id,
     date= this.props.data.date;
 
+
     return (
       <div className='article'>
       <div className="number col-md-1">{id+1}</div>
@@ -62,7 +66,7 @@ var Article = React.createClass({
 /**
 *Внутри Recalls рендерится каждый Article 
 */
-var Recalls = React.createClass({             
+var Recalls = React.createClass({           
   propTypes: {
     data: React.PropTypes.array.isRequired
   },
@@ -133,31 +137,21 @@ var Add = React.createClass({
       created_at: now.toString(),
       updated_at: now.toString()
     }];
-    console.log(item);
-    // function sendData(responce) {
-    //     $.ajax({
-    //         url: 'http://test1.levin.personal.kg.sibers.com/api.php/messages',
-    //         type: 'POST',
-    //         data: { json: JSON.stringify(item)},
-    //         dataType: 'json',
-    //         succes: function(responce){
-    //           console.log("succes");
-    //         }
-    //     });
-    // }
-    // $.ajax({
-    //     url: "http://test1.levin.personal.kg.sibers.com/api.php/messages",
-    //     type: "GET",
-    //     crossDomain: true,
-    //     data: { json: JSON.stringify(item)},
-    //     dataType: "jsonp",
-    //     success:function(result){
-    //         alert(JSON.stringify(result));
-    //     },
-    //     error:function(xhr,status,error){
-    //         alert(status);
-    //     }
-    // });
+      $.ajax({
+          url: 'http://test1.levin.personal.kg.sibers.com/api.php/messages',
+          type: 'POST',
+          data: { jsonp: JSON.stringify(item)},
+          dataType: 'jsonp',
+          jsonp: "callback",
+          crossDomain: true,
+          succes: function(data){
+            console.log("succes");
+          },
+          error:function(result, status, error){
+            console.log(status + "; " + error);
+            console.log(result);
+          }
+      });
     /**
     *Генерирует событие Recalls.add и в качетсве свойства дает item
     *Опустошаем поля ввода
@@ -197,7 +191,7 @@ var Add = React.createClass({
         </span>
 
         <span className='col-md-12 topDown'>
-         <input type="text"
+          <input type="text"
           type='date'
           className='adddatecol-md-2'
           onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
@@ -242,12 +236,15 @@ var App = React.createClass({
   *добавляем запись в массив
   */
   componentDidMount: function(){
+    /**
+    Место для вставления аякса - ибо родительский контейнер
+    */
     var self = this;                                      
     window.ee.addListener('Recalls.add', function(item){ 
       var nextRecalls = self.state.recalls.concat(item); 
       my_recalls = item.concat(self.state.recalls);   
       self.setState({recalls: nextRecalls});
-    })
+    });
   },
   componentWillUnmount: function(){
     window.ee.removeListener('Recalls.add');
