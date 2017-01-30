@@ -1,37 +1,26 @@
 'use strict';
-/**
-*Начальный массив
-*/
-$.ajax({
-  url: 'http://test1.levin.personal.kg.sibers.com/api.php/messages/list',
-  dataType: 'jsonp',
-  jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
-  success: function(data){
-    // we make a successful JSONP call!
-  }
-});
-$(document).ready(function() {
-    $.ajax({type: "POST",
-            crossDomain : true,
-            url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
-            data: {method: "getQuote",format: "jsonp",lang: "en"},
-            dataType: "jsonp",
-            jsonp: "jsonp",
-            jsonpCallback: "myJsonMethod"
-    }); 
-});
-function myJsonMethod(response){
-  console.log (response);
-}
-$(document).ready(function() {
-    $.getJSON("http://test1.levin.personal.kg.sibers.com/api.php/messages/list");
-});
-function myJsonMethod(response){
-  console.log (response);
-}
-var my_recalls = [ 
+var my_recalls = [];
 
-];
+var script = $("<script />", {
+    src: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+    type: "text/javascript"
+  }
+);
+
+$("head").append(script);
+
+$.ajax({
+  crossDomain: true,
+  type: "GET",
+  data: {format: "jsonp"},
+  url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+  jsonp: "callback",
+  dataType: "jsonp",
+  success: function(data) { console.log(data); },
+  error:function(result, status, error){
+      console.log(status + "; " + error);
+  }
+})
 
 /**
 *Добавил id к каждой записи
@@ -141,8 +130,10 @@ var Add = React.createClass({
       info: info,
       date: date,
       message: message,
-      created_at: now.toString()
+      created_at: now.toString(),
+      updated_at: now.toString()
     }];
+    console.log(item);
     // function sendData(responce) {
     //     $.ajax({
     //         url: 'http://test1.levin.personal.kg.sibers.com/api.php/messages',
@@ -154,19 +145,19 @@ var Add = React.createClass({
     //         }
     //     });
     // }
-    $.ajax({
-        url: "http://test1.levin.personal.kg.sibers.com/api.php/messages",
-        type: "GET",
-        crossDomain: true,
-        data: { json: JSON.stringify(item)},
-        dataType: "jsonp",
-        success:function(result){
-            alert(JSON.stringify(result));
-        },
-        error:function(xhr,status,error){
-            alert(status);
-        }
-    });
+    // $.ajax({
+    //     url: "http://test1.levin.personal.kg.sibers.com/api.php/messages",
+    //     type: "GET",
+    //     crossDomain: true,
+    //     data: { json: JSON.stringify(item)},
+    //     dataType: "jsonp",
+    //     success:function(result){
+    //         alert(JSON.stringify(result));
+    //     },
+    //     error:function(xhr,status,error){
+    //         alert(status);
+    //     }
+    // });
     /**
     *Генерирует событие Recalls.add и в качетсве свойства дает item
     *Опустошаем поля ввода
