@@ -8,23 +8,6 @@ var script = $("<script />", {
 );
 
 $("head").append(script);
-
-$.ajax({
-  crossDomain: true,
-  type: "GET",
-  data: {format: "jsonp"},
-  url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
-  jsonp: "callback",
-  dataType: "jsonp",
-  success: function(data) {
-    my_recalls.push.apply(my_recalls, data);
-    return my_recalls;
-  },
-  error:function(result, status, error){
-    console.log(status + "; " + error);
-    console.log(result);
-  }
-});
 /**
 *Добавил id к каждой записи
 */
@@ -42,7 +25,7 @@ var Article = React.createClass({
     data: React.PropTypes.shape({
       info: React.PropTypes.string.isRequired,
       message: React.PropTypes.string.isRequired,
-      id: React.PropTypes.number.isRequired,
+      id: React.PropTypes.string.isRequired,
       date: React.PropTypes.string.isRequired,
     })
   },
@@ -52,10 +35,9 @@ var Article = React.createClass({
     id = this.props.data.id,
     date= this.props.data.date;
 
-
     return (
       <div className='article'>
-      <div className="number col-md-1">{id+1}</div>
+      <div className="number col-md-1">{parseInt(id)}</div>
       <div className="date col-md-3">{date}</div>
       <div className="info col-md-3">{info}</div>
       <div className="message col-md-5">{message}</div>
@@ -71,9 +53,6 @@ var Recalls = React.createClass({
     data: React.PropTypes.array.isRequired
   },
   render: function() {
-    /**
-    *Или сюда аякс *_* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    */
     var data = this.props.data;
     var recallsTemplate;
     /**
@@ -231,9 +210,26 @@ var Add = React.createClass({
 *Начальное состояние App - задаем recalls начальный массив
 */
 var App = React.createClass({
+  loadData: function(){
+    $.ajax({
+      crossDomain: true,
+      type: "GET",
+      data: {format: "jsonp"},
+      url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+      jsonp: "callback",
+      dataType: "jsonp",
+      success: function(data) {
+        this.setState({recalls: data})
+      }.bind(this),
+      error:function(result, status, error){
+        console.log(status + "; " + error);
+        console.log(result);
+      }
+    });
+  },
   getInitialState: function(){ 
     return{
-      recalls: my_recalls
+      recalls: []
     };
   },
   /**
@@ -241,9 +237,7 @@ var App = React.createClass({
   *добавляем запись в массив
   */
   componentDidMount: function(){
-    /**
-    Место для вставления аякса - ибо родительский контейнер !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    */
+    this.loadData();
     var self = this;                                      
     window.ee.addListener('Recalls.add', function(item){ 
       var nextRecalls = self.state.recalls.concat(item); 
