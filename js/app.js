@@ -1,19 +1,6 @@
 'use strict';
 var my_recalls = [];
 
-var script = $("<script />", {
-  src: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
-  type: "text/javascript"
-}
-);
-
-$("head").append(script);
-/**
-*Добавил id к каждой записи
-*/
-for (var i = 0; i < my_recalls.length; i++) {
-  my_recalls[i].id = i;
-}
 /**
 *Глобальная переменная из EventEmitter, нужна для onBtnClickHandler
 *Создаем Article, ему в Proptypes указываем data->внутри неё форма со всей инфо объекта             
@@ -107,34 +94,29 @@ var Add = React.createClass({
     var message = messageCase.value;                          
     var info = infoCase.value;
     var date= dateCase.value;
-    var now = new Date();
     /**
     *Добавлять запись будем как раз через item
     */
-    var item = [{                                          
-      id: my_recalls.length,
+    var item = {                                          
       message: message,
       info: info,
-      date: date,
-      created_at: now.toString(),
-      updated_at: now.toString()
-    }];
-    console.log(JSON.stringify(item));
-    console.log(JSON.stringify(my_recalls[0]));
+      date: date
+    };
       $.ajax({
-          url: "http://test1.levin.personal.kg.sibers.com/api.php/messages",
-          type: "POST",
-          data: { jsonp: JSON.stringify(item)},
-          dataType: "jsonp",
-          jsonp: "callback",
-          crossDomain: true,
-          succes: function(data){
-            console.log("succes");
-          },
-          error:function(result, status, error){
-            console.log(status + "; " + error);
-            console.log(result);
-          }
+        url: "http://test1.levin.personal.kg.sibers.com/api.php/messages",
+        type: "GET",
+        data: item,
+        dataType: "jsonp",
+        crossDomain: true,
+        jsonp: "callback",
+        succes: function(data){
+          console.log("succes");
+          this.loadData();
+        },
+        error:function(result, status, error){
+          console.log(status + "; " + error);
+          console.log(result);
+        }
       });
     /**
     *Генерирует событие Recalls.add и в качетсве свойства дает item
@@ -239,14 +221,9 @@ var App = React.createClass({
   componentDidMount: function(){
     this.loadData();
     var self = this;                                      
-    window.ee.addListener('Recalls.add', function(item){ 
-      var nextRecalls = self.state.recalls.concat(item); 
-      my_recalls = item.concat(self.state.recalls);   
-      self.setState({recalls: nextRecalls});
-    });
   },
   componentWillUnmount: function(){
-    window.ee.removeListener('Recalls.add');
+
   },
   render: function() {
     return (
