@@ -67,13 +67,13 @@ var Recalls = React.createClass({
 *Сюда подключить add.js!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 */
 
-// var React = require('./react/react.js');
-// var ReactDOM = require('./react/react-dom.js');
+// var React = require('../react/react.js');
+// var ReactDOM = require('../react/react-dom.js');
 // var Add = require('add.js');
 
-import React from './react/react.js';
-import ReactDOM from './react/react-dom.js';
-import Add from 'add.js';
+import React from '../react/react.js';
+import ReactDOM from '../react/react-dom.js';
+import Add from './add.js';
 
 /**
 *Начальное состояние App - задаем recalls начальный массив

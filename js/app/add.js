@@ -1,11 +1,12 @@
 /**
 *Создаем App начальные свойства которой говорят что данные для ввода пустые
 */
-import React from './react/react.js';
-import ReactDOM from './react/react-dom.js';
+import React from '../react/react.js';
+import ReactDOM from '../react/react-dom.js';
 export default class Add extends React.Component {
 var Add = React.createClass({                        
   getInitialState: function() { 
+    console.log("something");
     return {
       infoIsEmpty: true,
       dateIsEmpty: true,
