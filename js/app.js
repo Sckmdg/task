@@ -111,7 +111,7 @@ var Add = React.createClass({
         jsonp: "callback",
         succes: function(data){
           console.log("succes");
-          this.loadData();
+          loadData();
         },
         error:function(result, status, error){
           console.log(status + "; " + error);
@@ -219,11 +219,7 @@ var App = React.createClass({
   *добавляем запись в массив
   */
   componentDidMount: function(){
-    this.loadData();
-    var self = this;                                      
-  },
-  componentWillUnmount: function(){
-
+    this.loadData();                                    
   },
   render: function() {
     return (
