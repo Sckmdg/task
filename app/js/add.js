@@ -3,27 +3,27 @@
 */
 import React from 'react';
 import ReactDOM from 'react-dom';
-var Add = React.createClass({                        
-  getInitialState: function() { 
-    console.log("something");
-    return {
+export default class Add extends React.Component{                         
+  constructor(props) {
+    super(props);
+    this.state = { 
       infoIsEmpty: true,
       dateIsEmpty: true,
       messageIsEmpty: true
-    };
-  },
+    }
+  }
 /**
 *Компонент примонтировался
 *и здесь мы фокусим refs на info
 */
-componentDidMount: function() {                              
+componentDidMount() {                              
   ReactDOM.findDOMNode(this.refs.info).focus();              
-},
+}
 /**
 *Создаем функцию используя переменную e из EventEmitter
 *Case нужен для очистки формы ввода после добавления
 */
-onBtnClickHandler: function(e) {                             
+onBtnClickHandler(e) {                             
   e.preventDefault();
   var messageCase = ReactDOM.findDOMNode(this.refs.message); 
   var infoCase = ReactDOM.findDOMNode(this.refs.info);
@@ -47,13 +47,13 @@ $.ajax({
   dataType: "jsonp",
   crossDomain: true,
   jsonp: "callback",
-  succes: function(data){
+  succes: (data) => {
     console.log("succes");
     /*
     *Сюда подключить выполнение loadDate.js!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     */
   },
-  error:function(result, status, error){
+  error: (result, status, error) => {
     console.log(status + "; " + error);
     console.log(result);
   }
@@ -68,63 +68,63 @@ infoCase.value = '';
 dateCase.value = '';
 this.setState({messageIsEmpty: true});
 this.setState({infoIsEmpty: true});
-},
+
+}
 /**
 *Проверяет если поля пустые или ничего не ввели(включая пробел)
 *кнопка дизейблится
 */
-onFieldChange: function(fieldName, e) {   
+onFieldChange (fieldName, e) {   
   if (e.target.value.trim().length) {
     this.setState({['' +fieldName]: false})
   } else {
     this.setState({['' +fieldName]: true})
   }
-},
+}
 
-render: function() {
+render() {
   var infoIsEmpty = this.state.infoIsEmpty,
   dateIsEmpty = this.state.dateIsEmpty,
   messageIsEmpty = this.state.messageIsEmpty;
-  return (
-    <form className='add cf col-md-12 topDown'>
-    <span className='col-md-12 topDown'>
-    <input
-    type='text'
-    className='addinfo col-md-2'
-    onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}
-    placeholder='Ваше ФИО'
-    ref='info'/>
-    </span>
+  return 
+  <form className='add cf col-md-12 topDown'>
+  <span className='col-md-12 topDown'>
+  <input
+  type='text'
+  className='addinfo col-md-2'
+  onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}
+  placeholder='Ваше ФИО'
+  ref='info'/>
+  </span>
 
-    <span className='col-md-12 topDown'>
-    <input type="text"
-    type='date'
-    className='adddatecol-md-2'
-    onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
-    placeholder='Введите дату'
-    ref='date'/>
-    </span>
+  <span className='col-md-12 topDown'>
+  <input type="text"
+  type='date'
+  className='adddatecol-md-2'
+  onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
+  placeholder='Введите дату'
+  ref='date'/>
+  </span>
 
-    <span className='col-md-12 topDown'>
-    <textarea
-    className='addmessage col-md-2'
-    rows="4"
-    onChange={this.onFieldChange.bind(this, 'messageIsEmpty')}
-    placeholder='Ваш отзыв'
-    ref='message'>
-    </textarea>
-    </span>
+  <span className='col-md-12 topDown'>
+  <textarea
+  className='addmessage col-md-2'
+  rows="4"
+  onChange={this.onFieldChange.bind(this, 'messageIsEmpty')}
+  placeholder='Ваш отзыв'
+  ref='message'>
+  </textarea>
+  </span>
 
-    <span className='col-md-12 topDown'>
-    <button
-    type="button"
-    className='addBtn btn btn-success'
-    onClick={this.onBtnClickHandler}
-    disabled={infoIsEmpty || messageIsEmpty || dateIsEmpty}>
-    Добавить отзыв
-    </button>
-    </span>
-    </form>
-    );
+  <span className='col-md-12 topDown'>
+  <button
+  type="button"
+  className='addBtn btn btn-success'
+  onClick={this.onBtnClickHandler}
+  disabled={infoIsEmpty || messageIsEmpty || dateIsEmpty}>
+  Добавить отзыв
+  </button>
+  </span>
+  </form>
 }
-});
+}
