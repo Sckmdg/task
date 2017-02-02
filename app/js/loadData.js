@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-export default class LoadData extends React.Component{
-  LoadData(){
+export default function LoadData (){
     $.ajax({
       crossDomain: true,
       type: "GET",
@@ -17,5 +16,4 @@ export default class LoadData extends React.Component{
         console.log(result);
       }
     });
-  }
 }

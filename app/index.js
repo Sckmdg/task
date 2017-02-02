@@ -5,8 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Article from './js/article';
 import Recalls from './js/recalls';
+import LoadData from './js/loadData';
 import Add from './js/add';
-import LoadDate from './js/loadDate';
 import App from './js/app';
 ReactDOM.render(
 	<App />,

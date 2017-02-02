@@ -19,15 +19,25 @@ export default class App extends React.Component{
   *Начальное состояние App - задаем recalls начальный массив
   */
 
-    /**
-    *Место для подгрузки loadDate.js!!!!!!!!!!!!!!!!!!!
-    */
-
-    render() {
-      return 
-        <div className='app'>
-        <Recalls data={this.state.recalls} />
-        <Add />
-        </div>
-    }
-  };
+  /**
+  *Место для подгрузки loadDate.js!!!!!!!!!!!!!!!!!!!
+  */
+  Article(data){}
+  Recalls(data){}
+  Add(data){}
+  LoadData(data){}
+  constructor(props) {
+    super(props);
+    this.state = { recalls: [] }
+  }
+  componentDidMount() {
+    this.loadData()
+  }
+  render() {
+    return 
+    <div className='app'>
+    <Recalls data={this.state.recalls} />
+    <Add />
+    </div>
+  }
+};

@@ -9665,14 +9665,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
 
-  function App() {
-    _classCallCheck(this, App);
-
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-  }
-
   _createClass(App, [{
-    key: 'render',
+    key: 'Article',
 
 
     /**
@@ -9694,7 +9688,34 @@ var App = function (_React$Component) {
     /**
     *Место для подгрузки loadDate.js!!!!!!!!!!!!!!!!!!!
     */
+    value: function Article(data) {}
+  }, {
+    key: 'Recalls',
+    value: function Recalls(data) {}
+  }, {
+    key: 'Add',
+    value: function Add(data) {}
+  }, {
+    key: 'LoadData',
+    value: function LoadData(data) {}
+  }]);
 
+  function App(props) {
+    _classCallCheck(this, App);
+
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = { recalls: [] };
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.loadData();
+    }
+  }, {
+    key: 'render',
     value: function render() {
       return;
       _react2.default.createElement(
@@ -9810,8 +9831,7 @@ Article.propTypes = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.default = undefined;
 
 var _react = __webpack_require__(18);
 
@@ -9823,47 +9843,25 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function LoadData() {
+  var _this = this;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var LoadData = function (_React$Component) {
-  _inherits(LoadData, _React$Component);
-
-  function LoadData() {
-    _classCallCheck(this, LoadData);
-
-    return _possibleConstructorReturn(this, (LoadData.__proto__ || Object.getPrototypeOf(LoadData)).apply(this, arguments));
-  }
-
-  _createClass(LoadData, [{
-    key: 'LoadData',
-    value: function LoadData() {
-      var _this2 = this;
-
-      $.ajax({
-        crossDomain: true,
-        type: "GET",
-        data: { format: "jsonp" },
-        url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
-        jsonp: "callback",
-        dataType: "jsonp",
-        success: function success(data) {
-          _this2.setState({ recalls: data });
-        },
-        error: function error(result, status, _error) {
-          console.log(status + "; " + _error);
-          console.log(result);
-        }
-      });
+  $.ajax({
+    crossDomain: true,
+    type: "GET",
+    data: { format: "jsonp" },
+    url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+    jsonp: "callback",
+    dataType: "jsonp",
+    success: function success(data) {
+      _this.setState({ recalls: data });
+    },
+    error: function error(result, status, _error) {
+      console.log(status + "; " + _error);
+      console.log(result);
     }
-  }]);
-
-  return LoadData;
-}(_react2.default.Component);
-
+  });
+}
 exports.default = LoadData;
 
 /***/ }),
@@ -22201,13 +22199,13 @@ var _recalls = __webpack_require__(85);
 
 var _recalls2 = _interopRequireDefault(_recalls);
 
+var _loadData = __webpack_require__(84);
+
+var _loadData2 = _interopRequireDefault(_loadData);
+
 var _add = __webpack_require__(81);
 
 var _add2 = _interopRequireDefault(_add);
-
-var _loadDate = __webpack_require__(84);
-
-var _loadDate2 = _interopRequireDefault(_loadDate);
 
 var _app = __webpack_require__(82);
 
