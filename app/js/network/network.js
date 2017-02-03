@@ -1,23 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Article from '../article/article'
+import Recalls from '../article/recalls'
 export default class Network extends React.Component{
-   LoadData() {
-    $.ajax({
-      crossDomain: true,
-      type: "GET",
-      data: {format: "jsonp"},
-      url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
-      jsonp: "callback",
-      dataType: "jsonp",
-      success: (data) => {
-        this.setState({recalls: data});
-      },
-      error:(result, status, error) => {
-        console.log(status + "; " + error);
-        console.log(result);
-      }
-    });
-  }
+  LoadData() {
+      return(
+          $.ajax({
+        crossDomain: true,
+        type: "GET",
+        data: {format: "jsonp"},
+        url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+        jsonp: "callback",
+        dataType: "jsonp",
+        success: (data) => {
+          this.setState({recalls: data});
+        },
+        error:(result, status, error) => {
+          console.log(status + "; " + error);
+          console.log(result);
+        }
+      })
+      );
+    }
 /**
 *Создаем App начальные свойства которой говорят что данные для ввода пустые
 */                    

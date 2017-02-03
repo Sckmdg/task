@@ -3,6 +3,7 @@
 */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Article from './article'
 export default class Recalls extends React.Component{          
   render() {
     var data = this.props.data;

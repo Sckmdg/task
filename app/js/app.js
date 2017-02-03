@@ -1,15 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Article from './article'
-import Recalls from './recalls'
-import Network from './network'
+import Network from './network/network'
+import Article from './article/article'
+import Recalls from './article/recalls'
 export default class App extends React.Component{
   constructor(props) {
     super(props);
-    this.state = { recalls: [] }
+    this.state = { recalls: [] };
   }
   componentDidMount() {
-    Network.LoadData();
+      //     $.ajax({
+      //   crossDomain: true,
+      //   type: "GET",
+      //   data: {format: "jsonp"},
+      //   url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+      //   jsonp: "callback",
+      //   dataType: "jsonp",
+      //   success: (data) => {
+      //     this.setState({recalls: data});
+      //   },
+      //   error:(result, status, error) => {
+      //     console.log(status + "; " + error);
+      //     console.log(result);
+      //   }
+      // })
+      console.log(Network);
   }
   render() {
     return( 
