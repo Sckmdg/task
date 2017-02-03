@@ -1,43 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Article from './article'
+import Recalls from './recalls'
+import Network from './network'
 export default class App extends React.Component{
-
-  /**
-  *Сюда article!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  */
-
-  /**
-  *Сюда recalls!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  */
-
-  /**
-  *Сюда подключить add!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  */
-
-
-  /**
-  *Начальное состояние App - задаем recalls начальный массив
-  */
-
-  /**
-  *Место для подгрузки loadDate.js!!!!!!!!!!!!!!!!!!!
-  */
-  Article(data){}
-  Recalls(data){}
-  Add(data){}
-  LoadData(data){}
   constructor(props) {
     super(props);
     this.state = { recalls: [] }
   }
   componentDidMount() {
-    this.loadData()
+    Network.LoadData();
   }
   render() {
-    return 
+    return( 
     <div className='app'>
     <Recalls data={this.state.recalls} />
-    <Add />
+    <Network />
     </div>
+    );
   }
 };

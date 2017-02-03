@@ -22,10 +22,11 @@ export default class Recalls extends React.Component{
     else {
       recallsTemplate = <p className="text-center">Записей не имеется</p>
     }
-    return 
+    return (
     <div className='recalls'>
     {recallsTemplate}
     </div>
+    );
   }
 }
 Recalls.propTypes = {

@@ -1,9 +1,26 @@
-/**
-*Создаем App начальные свойства которой говорят что данные для ввода пустые
-*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-export default class Add extends React.Component{                         
+export default class Network extends React.Component{
+   LoadData() {
+    $.ajax({
+      crossDomain: true,
+      type: "GET",
+      data: {format: "jsonp"},
+      url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/list",
+      jsonp: "callback",
+      dataType: "jsonp",
+      success: (data) => {
+        this.setState({recalls: data});
+      },
+      error:(result, status, error) => {
+        console.log(status + "; " + error);
+        console.log(result);
+      }
+    });
+  }
+/**
+*Создаем App начальные свойства которой говорят что данные для ввода пустые
+*/                    
   constructor(props) {
     super(props);
     this.state = { 
@@ -86,45 +103,46 @@ render() {
   var infoIsEmpty = this.state.infoIsEmpty,
   dateIsEmpty = this.state.dateIsEmpty,
   messageIsEmpty = this.state.messageIsEmpty;
-  return 
-  <form className='add cf col-md-12 topDown'>
-  <span className='col-md-12 topDown'>
-  <input
-  type='text'
-  className='addinfo col-md-2'
-  onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}
-  placeholder='Ваше ФИО'
-  ref='info'/>
-  </span>
+  return (
+    <form className='add cf col-md-12 topDown'>
+    <span className='col-md-12 topDown'>
+    <input
+    type='text'
+    className='addinfo col-md-2'
+    onChange={this.onFieldChange.bind(this, 'infoIsEmpty')}
+    placeholder='Ваше ФИО'
+    ref='info'/>
+    </span>
 
-  <span className='col-md-12 topDown'>
-  <input type="text"
-  type='date'
-  className='adddatecol-md-2'
-  onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
-  placeholder='Введите дату'
-  ref='date'/>
-  </span>
+    <span className='col-md-12 topDown'>
+    <input type="text"
+    type='date'
+    className='adddatecol-md-2'
+    onChange={this.onFieldChange.bind(this, 'dateIsEmpty')}
+    placeholder='Введите дату'
+    ref='date'/>
+    </span>
 
-  <span className='col-md-12 topDown'>
-  <textarea
-  className='addmessage col-md-2'
-  rows="4"
-  onChange={this.onFieldChange.bind(this, 'messageIsEmpty')}
-  placeholder='Ваш отзыв'
-  ref='message'>
-  </textarea>
-  </span>
+    <span className='col-md-12 topDown'>
+    <textarea
+    className='addmessage col-md-2'
+    rows="4"
+    onChange={this.onFieldChange.bind(this, 'messageIsEmpty')}
+    placeholder='Ваш отзыв'
+    ref='message'>
+    </textarea>
+    </span>
 
-  <span className='col-md-12 topDown'>
-  <button
-  type="button"
-  className='addBtn btn btn-success'
-  onClick={this.onBtnClickHandler}
-  disabled={infoIsEmpty || messageIsEmpty || dateIsEmpty}>
-  Добавить отзыв
-  </button>
-  </span>
-  </form>
+    <span className='col-md-12 topDown'>
+    <button
+    type="button"
+    className='addBtn btn btn-success'
+    onClick={this.onBtnClickHandler}
+    disabled={infoIsEmpty || messageIsEmpty || dateIsEmpty}>
+    Добавить отзыв
+    </button>
+    </span>
+    </form>
+    );
 }
 }
