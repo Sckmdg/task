@@ -3536,7 +3536,7 @@ Article.propTypes = {
   data: _react2.default.PropTypes.shape({
     info: _react2.default.PropTypes.string.isRequired,
     message: _react2.default.PropTypes.string.isRequired,
-    id: _react2.default.PropTypes.number.isRequired,
+    id: _react2.default.PropTypes.string.isRequired,
     date: _react2.default.PropTypes.string.isRequired
   })
 };
@@ -9819,6 +9819,7 @@ var Network = function (_React$Component) {
     key: 'onBtnClickHandler',
     value: function onBtnClickHandler(e) {
       e.preventDefault();
+      console.log(this.refs);
       var messageCase = _reactDom2.default.findDOMNode(this.refs.message);
       var infoCase = _reactDom2.default.findDOMNode(this.refs.info);
       var dateCase = _reactDom2.default.findDOMNode(this.refs.date);
@@ -9922,7 +9923,7 @@ var Network = function (_React$Component) {
             {
               type: 'button',
               className: 'addBtn btn btn-success',
-              onClick: this.onBtnClickHandler,
+              onClick: this.onBtnClickHandler.bind(this),
               disabled: infoIsEmpty || messageIsEmpty || dateIsEmpty },
             '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043E\u0442\u0437\u044B\u0432'
           )
@@ -22187,8 +22188,8 @@ var _app2 = _interopRequireDefault(_app);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var my_recalls = [];
 window.ee = new EventEmitter();
+var my_recalls = [];
 
 _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('root'));
 

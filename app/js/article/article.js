@@ -20,7 +20,7 @@ Article.propTypes = {
   data: React.PropTypes.shape({
     info: React.PropTypes.string.isRequired,
     message: React.PropTypes.string.isRequired,
-    id: React.PropTypes.number.isRequired,
+    id: React.PropTypes.string.isRequired,
     date: React.PropTypes.string.isRequired,
   })
 }
