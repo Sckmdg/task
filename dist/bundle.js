@@ -9719,6 +9719,16 @@ var App = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       (0, _loadData2.default)(this);
+      var some = this;
+      window.ee.addListener('Recalls.add', function (item) {
+        var nextRecalls = (0, _loadData2.default)(some);
+        some.setState({ recalls: nextRecalls });
+      });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.ee.removeListener('Recalls.add');
     }
   }, {
     key: 'render',
@@ -9818,8 +9828,9 @@ var Network = function (_React$Component) {
   }, {
     key: 'onBtnClickHandler',
     value: function onBtnClickHandler(e) {
+      var _this2 = this;
+
       e.preventDefault();
-      console.log(this.refs);
       var messageCase = _reactDom2.default.findDOMNode(this.refs.message);
       var infoCase = _reactDom2.default.findDOMNode(this.refs.info);
       var dateCase = _reactDom2.default.findDOMNode(this.refs.date);
@@ -9844,9 +9855,7 @@ var Network = function (_React$Component) {
         jsonp: "callback",
         succes: function succes(data) {
           console.log("succes");
-          /*
-          *Сюда подключить выполнение loadDate.js!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          */
+          (0, _loadData2.default)(_this2);
         },
         error: function error(result, status, _error) {
           console.log(status + "; " + _error);

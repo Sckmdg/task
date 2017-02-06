@@ -20,7 +20,7 @@ export default class Network extends React.Component{
 *и здесь мы фокусим refs на info
 */
 componentDidMount() {                              
-  ReactDOM.findDOMNode(this.refs.info).focus();           
+  ReactDOM.findDOMNode(this.refs.info).focus();          
 }
 /**
 *Создаем функцию используя переменную e из EventEmitter
@@ -28,7 +28,6 @@ componentDidMount() {
 */
 onBtnClickHandler(e) {                             
   e.preventDefault();
-  console.log(this.refs);
   var messageCase = ReactDOM.findDOMNode(this.refs.message); 
   var infoCase = ReactDOM.findDOMNode(this.refs.info);
   var dateCase = ReactDOM.findDOMNode(this.refs.date);
@@ -53,9 +52,7 @@ $.ajax({
   jsonp: "callback",
   succes: (data) => {
     console.log("succes");
-    /*
-    *Сюда подключить выполнение loadDate.js!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    */
+    LoadData(this);
   },
   error: (result, status, error) => {
     console.log(status + "; " + error);
