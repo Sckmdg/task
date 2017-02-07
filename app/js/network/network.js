@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import Article from '../article/article'
 import Recalls from '../article/recalls'
 import LoadData from './loadData'
-export default class Network extends React.Component{
-/**
-*Создаем App начальные свойства которой говорят что данные для ввода пустые
-*/                   
+export default class Network extends React.Component{   
+
+  /**
+  *Initial state of our form values - empty
+  */  
+
   constructor(props) {
     super(props);
     this.state = { 
@@ -15,17 +17,15 @@ export default class Network extends React.Component{
       messageIsEmpty: true
     }
   }
-/**
-*Компонент примонтировался
-*и здесь мы фокусим refs на info
-*/
+
 componentDidMount() {                              
   ReactDOM.findDOMNode(this.refs.info).focus();          
 }
+
 /**
-*Создаем функцию используя переменную e из EventEmitter
-*Case нужен для очистки формы ввода после добавления
-*/
+*Item - is single article that we will send to server
+*/  
+
 onBtnClickHandler(e) {                             
   e.preventDefault();
   var messageCase = ReactDOM.findDOMNode(this.refs.message); 
@@ -34,9 +34,7 @@ onBtnClickHandler(e) {
   var message = messageCase.value;                          
   var info = infoCase.value;
   var date= dateCase.value;
-/**
-*Добавлять запись будем как раз через item
-*/
+
 var item = {                                          
   message: message,
   info: info,
@@ -52,29 +50,29 @@ $.ajax({
   jsonp: "callback",
   succes: (data) => {
     console.log("succes");
-    LoadData(this);
   },
   error: (result, status, error) => {
     console.log(status + "; " + error);
     console.log(result);
   }
 });
+
 /**
-*Генерирует событие Recalls.add и в качетсве свойства дает item
-*Опустошаем поля ввода
-*/
+*Creating event Recalls.add with property Item
+*/    
+
 window.ee.emit('Recalls.add', item);  
 messageCase.value = '';            
 infoCase.value = '';
 dateCase.value = '';
 this.setState({messageIsEmpty: true});
 this.setState({infoIsEmpty: true});
-
 }
+
 /**
-*Проверяет если поля пустые или ничего не ввели(включая пробел)
-*кнопка дизейблится
-*/
+*Checking our field if she void or not
+*/ 
+
 onFieldChange (fieldName, e) {   
   if (e.target.value.trim().length) {
     this.setState({['' +fieldName]: false})

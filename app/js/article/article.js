@@ -1,3 +1,7 @@
+/**
+ * This is single object
+ * @this - Article props.data(info, message, .. etc)
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 export default class Article extends React.Component{    
@@ -8,10 +12,10 @@ export default class Article extends React.Component{
     date= this.props.data.date;
     return (
     <div className='article'>
-    <div className="number col-md-1">{parseInt(id)}</div>
-    <div className="date col-md-3">{date}</div>
-    <div className="info col-md-3">{info}</div>
-    <div className="message col-md-5">{message}</div>
+        <div className="number col-md-1">{parseInt(id)}</div>
+        <div className="date col-md-3">{date}</div>
+        <div className="info col-md-3">{info}</div>
+        <div className="message col-md-5">{message}</div>
     </div>
     );
   }

@@ -3482,7 +3482,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This is single object
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @this - Article props.data(info, message, .. etc)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
 
 var Article = function (_React$Component) {
   _inherits(Article, _React$Component);
@@ -4706,7 +4710,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               *Внутри Recalls рендерится каждый Article 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               *Добавляем уникальный key оборачивая каждый Article
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               *Wraping each article with div
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               *Each div have unique id 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               *@this - props data array from articles 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 
@@ -4724,9 +4731,6 @@ var Recalls = function (_React$Component) {
     value: function render() {
       var data = this.props.data;
       var recallsTemplate;
-      /**
-      *Добавляем уникальный key оборачивая каждый Article
-      */
       if (data.length) {
         recallsTemplate = data.map(function (item, index) {
           return _react2.default.createElement(
@@ -9701,7 +9705,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Importing components and export our App
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @This - recalls with array from articles
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -9714,6 +9722,11 @@ var App = function (_React$Component) {
     _this.state = { recalls: [] };
     return _this;
   }
+  /**
+  * Loading data from server
+  * Add listener that changes our data
+  */
+
 
   _createClass(App, [{
     key: 'componentDidMount',
@@ -9795,8 +9808,9 @@ var Network = function (_React$Component) {
   _inherits(Network, _React$Component);
 
   /**
-  *Создаем App начальные свойства которой говорят что данные для ввода пустые
+  *Initial state of our form values - empty
   */
+
   function Network(props) {
     _classCallCheck(this, Network);
 
@@ -9809,27 +9823,20 @@ var Network = function (_React$Component) {
     };
     return _this;
   }
-  /**
-  *Компонент примонтировался
-  *и здесь мы фокусим refs на info
-  */
-
 
   _createClass(Network, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       _reactDom2.default.findDOMNode(this.refs.info).focus();
     }
+
     /**
-    *Создаем функцию используя переменную e из EventEmitter
-    *Case нужен для очистки формы ввода после добавления
+    *Item - is single article that we will send to server
     */
 
   }, {
     key: 'onBtnClickHandler',
     value: function onBtnClickHandler(e) {
-      var _this2 = this;
-
       e.preventDefault();
       var messageCase = _reactDom2.default.findDOMNode(this.refs.message);
       var infoCase = _reactDom2.default.findDOMNode(this.refs.info);
@@ -9837,9 +9844,7 @@ var Network = function (_React$Component) {
       var message = messageCase.value;
       var info = infoCase.value;
       var date = dateCase.value;
-      /**
-      *Добавлять запись будем как раз через item
-      */
+
       var item = {
         message: message,
         info: info,
@@ -9855,17 +9860,17 @@ var Network = function (_React$Component) {
         jsonp: "callback",
         succes: function succes(data) {
           console.log("succes");
-          (0, _loadData2.default)(_this2);
         },
         error: function error(result, status, _error) {
           console.log(status + "; " + _error);
           console.log(result);
         }
       });
+
       /**
-      *Генерирует событие Recalls.add и в качетсве свойства дает item
-      *Опустошаем поля ввода
+      *Creating event Recalls.add with property Item
       */
+
       window.ee.emit('Recalls.add', item);
       messageCase.value = '';
       infoCase.value = '';
@@ -9873,9 +9878,9 @@ var Network = function (_React$Component) {
       this.setState({ messageIsEmpty: true });
       this.setState({ infoIsEmpty: true });
     }
+
     /**
-    *Проверяет если поля пустые или ничего не ввели(включая пробел)
-    *кнопка дизейблится
+    *Checking our field if she void or not
     */
 
   }, {
@@ -22182,6 +22187,15 @@ module.exports = traverseAllChildren;
 
 "use strict";
 
+/**
+ * App composed from:
+ * 	-Recalls wrapped in div Recalls that wraps our article in div with unique id
+ *		-Article is our object with our data(id, date, message)
+ *	-LoadData is function with AJAX cross-domen request with data from server
+ *	-Network is class that renders send form(also clearing her after send data), AJAX post with data from form 
+ *
+ * Here we importing our app and the rendering him
+ */
 
 var _react = __webpack_require__(21);
 
@@ -22198,7 +22212,6 @@ var _app2 = _interopRequireDefault(_app);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.ee = new EventEmitter();
-var my_recalls = [];
 
 _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('root'));
 

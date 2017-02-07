@@ -1,3 +1,7 @@
+/**
+ * Importing components and export our App
+ * @This - recalls with array from articles
+ */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Network from './network/network'
@@ -9,6 +13,10 @@ export default class App extends React.Component{
     super(props);
     this.state = { recalls: [] };
   }
+  /**
+ * Loading data from server
+ * Add listener that changes our data
+ */
   componentDidMount() {
     LoadData(this);
     var some = this;

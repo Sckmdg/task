@@ -1,5 +1,8 @@
 /**
-*Внутри Recalls рендерится каждый Article 
+*Добавляем уникальный key оборачивая каждый Article
+*Wraping each article with div
+*Each div have unique id 
+*@this - props data array from articles 
 */
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,9 +11,6 @@ export default class Recalls extends React.Component{
   render() {
     var data = this.props.data;
     var recallsTemplate;
-    /**
-    *Добавляем уникальный key оборачивая каждый Article
-    */
     if (data.length) {                   
       recallsTemplate = data.map(function(item, index) {
         return (
