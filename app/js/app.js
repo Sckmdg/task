@@ -20,18 +20,13 @@ export default class App extends React.Component{
   componentDidMount() {
     LoadData(this);
     var some = this;
-    window.ee.addListener('Recalls.add', function(item) {
-      var nextRecalls = LoadData(some);
-      some.setState({recalls: nextRecalls});
-    });
-    window.ee.addListener('Delete.add', function(){
+    window.ee.addListener('Recalls.add', function() {
       var nextRecalls = LoadData(some);
       some.setState({recalls: nextRecalls});
     });
   }
   componentWillUnmount() {
     window.ee.removeListener('Recalls.add');
-    window.ee.removeListener('Delete.add');
   }
   render() {
     return( 

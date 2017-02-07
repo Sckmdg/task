@@ -48,8 +48,8 @@ $.ajax({
   dataType: "jsonp",
   crossDomain: true,
   jsonp: "callback",
-  succes: (data) => {
-    console.log("succes");
+  complete : () => {
+    window.ee.emit('Recalls.add'); 
   },
   error: (result, status, error) => {
     console.log(status + "; " + error);
@@ -58,10 +58,10 @@ $.ajax({
 });
 
 /**
-*Creating event Recalls.add with property Item
+*Creating event Recalls.add
 */    
 
-window.ee.emit('Recalls.add', item);  
+ 
 messageCase.value = '';            
 infoCase.value = '';
 dateCase.value = '';

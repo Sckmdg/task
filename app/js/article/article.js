@@ -30,14 +30,15 @@ $.ajax({
   dataType: "jsonp",
   crossDomain: true,
   jsonp: "callback",
-  succes: (data) => {
+  complete : () => {
+    window.ee.emit('Recalls.add'); 
   },
   error: (result, status, error) => {
     console.log(status + "; " + error);
     console.log(result);
 }
 });
-window.ee.emit('Delete.add');  
+
 }
 
 render() {

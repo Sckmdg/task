@@ -3523,13 +3523,14 @@ var Article = function (_React$Component) {
                 dataType: "jsonp",
                 crossDomain: true,
                 jsonp: "callback",
-                succes: function succes(data) {},
+                complete: function complete() {
+                    window.ee.emit('Recalls.add');
+                },
                 error: function error(result, status, _error) {
                     console.log(status + "; " + _error);
                     console.log(result);
                 }
             });
-            window.ee.emit('Delete.add', sendObject);
         }
     }, {
         key: 'render',
@@ -9796,11 +9797,7 @@ var App = function (_React$Component) {
     value: function componentDidMount() {
       (0, _loadData2.default)(this);
       var some = this;
-      window.ee.addListener('Recalls.add', function (item) {
-        var nextRecalls = (0, _loadData2.default)(some);
-        some.setState({ recalls: nextRecalls });
-      });
-      window.ee.addListener('Delete.add', function (sendObject) {
+      window.ee.addListener('Recalls.add', function () {
         var nextRecalls = (0, _loadData2.default)(some);
         some.setState({ recalls: nextRecalls });
       });
@@ -9809,7 +9806,6 @@ var App = function (_React$Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       window.ee.removeListener('Recalls.add');
-      window.ee.removeListener('Delete.add');
     }
   }, {
     key: 'render',
@@ -9926,8 +9922,8 @@ var Network = function (_React$Component) {
         dataType: "jsonp",
         crossDomain: true,
         jsonp: "callback",
-        succes: function succes(data) {
-          console.log("succes");
+        complete: function complete() {
+          window.ee.emit('Recalls.add');
         },
         error: function error(result, status, _error) {
           console.log(status + "; " + _error);
@@ -9936,10 +9932,9 @@ var Network = function (_React$Component) {
       });
 
       /**
-      *Creating event Recalls.add with property Item
+      *Creating event Recalls.add
       */
 
-      window.ee.emit('Recalls.add', item);
       messageCase.value = '';
       infoCase.value = '';
       dateCase.value = '';
