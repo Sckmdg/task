@@ -24,9 +24,14 @@ export default class App extends React.Component{
       var nextRecalls = LoadData(some);
       some.setState({recalls: nextRecalls});
     });
+    window.ee.addListener('Delete.add', function(){
+      var nextRecalls = LoadData(some);
+      some.setState({recalls: nextRecalls});
+    });
   }
   componentWillUnmount() {
     window.ee.removeListener('Recalls.add');
+    window.ee.removeListener('Delete.add');
   }
   render() {
     return( 

@@ -3463,7 +3463,7 @@ module.exports = SyntheticUIEvent;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3483,66 +3483,129 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This is single object
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @this - Article props.data(info, message, .. etc)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * This is single object
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @this - Article props.data(info, message, .. etc)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 
 
 var Article = function (_React$Component) {
-  _inherits(Article, _React$Component);
+    _inherits(Article, _React$Component);
 
-  function Article() {
-    _classCallCheck(this, Article);
+    function Article(props) {
+        _classCallCheck(this, Article);
 
-    return _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).apply(this, arguments));
-  }
+        var _this = _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this, props));
 
-  _createClass(Article, [{
-    key: 'render',
-    value: function render() {
-      var info = this.props.data.info,
-          message = this.props.data.message,
-          id = this.props.data.id,
-          date = this.props.data.date;
-      return _react2.default.createElement(
-        'div',
-        { className: 'article' },
-        _react2.default.createElement(
-          'div',
-          { className: 'number col-md-1' },
-          parseInt(id)
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'date col-md-3' },
-          date
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'info col-md-3' },
-          info
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'message col-md-5' },
-          message
-        )
-      );
+        _this.state = { hide: true };
+        return _this;
     }
-  }]);
 
-  return Article;
+    _createClass(Article, [{
+        key: 'ShowHide',
+        value: function ShowHide(e) {
+            e.preventDefault();
+            var hide = this.state.hide;
+            this.setState({ hide: !hide });
+        }
+    }, {
+        key: 'Delete',
+        value: function Delete(e) {
+            e.preventDefault();
+            this.setState({ hide: !hide });
+            var hide = this.state.hide;
+            var sendObject = {
+                id: this.props.data.id
+            };
+            $.ajax({
+                url: "http://test1.levin.personal.kg.sibers.com/api.php/messages/remove",
+                type: "GET",
+                data: sendObject,
+                dataType: "jsonp",
+                crossDomain: true,
+                jsonp: "callback",
+                succes: function succes(data) {},
+                error: function error(result, status, _error) {
+                    console.log(status + "; " + _error);
+                    console.log(result);
+                }
+            });
+            window.ee.emit('Delete.add', sendObject);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var info = this.props.data.info,
+                message = this.props.data.message,
+                id = this.props.data.id,
+                date = this.props.data.date,
+                hide = this.state.hide;
+            return _react2.default.createElement(
+                'div',
+                { className: 'article' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'number col-md-1' },
+                    parseInt(id)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'date col-md-2' },
+                    date
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'info col-md-3' },
+                    info
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'message col-md-3' },
+                    message
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'remove col-md-3' },
+                    _react2.default.createElement(
+                        'button',
+                        { type: 'button', className: "btn btn-danger " + (hide == false ? "hidden" : "show"), onClick: this.ShowHide.bind(this) },
+                        '\u0423\u0434\u0430\u043B\u0438\u0442\u044C'
+                    ),
+                    _react2.default.createElement(
+                        'span',
+                        { className: "choose " + (hide == true ? "hidden" : "show") },
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            '\u0412\u044B \u0442\u043E\u0447\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u043E\u0442\u0437\u044B\u0432?',
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'submit', className: 'btn btn-success btn-xs col-md-offset-1', onClick: this.Delete.bind(this) },
+                                '\u0423\u0434\u0430\u043B\u0438\u0442\u044C'
+                            ),
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'button', className: 'btn btn-danger btn-xs col-md-offset-1', onClick: this.ShowHide.bind(this) },
+                                '\u041E\u0442\u043C\u0435\u043D\u0430'
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Article;
 }(_react2.default.Component);
 
 exports.default = Article;
 
 Article.propTypes = {
-  data: _react2.default.PropTypes.shape({
-    info: _react2.default.PropTypes.string.isRequired,
-    message: _react2.default.PropTypes.string.isRequired,
-    id: _react2.default.PropTypes.string.isRequired,
-    date: _react2.default.PropTypes.string.isRequired
-  })
+    data: _react2.default.PropTypes.shape({
+        info: _react2.default.PropTypes.string.isRequired,
+        message: _react2.default.PropTypes.string.isRequired,
+        id: _react2.default.PropTypes.string.isRequired,
+        date: _react2.default.PropTypes.string.isRequired
+    })
 };
 
 /***/ }),
@@ -9737,11 +9800,16 @@ var App = function (_React$Component) {
         var nextRecalls = (0, _loadData2.default)(some);
         some.setState({ recalls: nextRecalls });
       });
+      window.ee.addListener('Delete.add', function (sendObject) {
+        var nextRecalls = (0, _loadData2.default)(some);
+        some.setState({ recalls: nextRecalls });
+      });
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       window.ee.removeListener('Recalls.add');
+      window.ee.removeListener('Delete.add');
     }
   }, {
     key: 'render',
