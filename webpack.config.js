@@ -1,25 +1,51 @@
-var path = require('path');
+var path = require('path')
+var webpack = require('webpack')
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 
 module.exports = {
-	entry: './app/index.js',
-	output: {
-		filename: 'bundle.js',
-		path: path.resolve(__dirname, 'dist')
-	},
-	resolve: {
-	  extensions: ['.js', '.jsx']
-	},
-	module:{
-		loaders: [
-		{  
-			test: /\.jsx?$/,
-			exclude: /(node_modules)/,
-			loader: 'babel-loader',
-			query: {
-				cacheDirectory: true,
-				presets: ['react', 'es2015']
-			}
-		}
-		]
-	}
-};
+  devtool: 'cheap-module-eval-source-map',
+  entry: [
+  'webpack-hot-middleware/client',
+  'babel-polyfill',
+  './src/index'
+  ],
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/static/'
+  },
+  plugins: [
+  new webpack.optimize.OccurrenceOrderPlugin(),
+  new webpack.HotModuleReplacementPlugin(),
+  ],
+  module: {
+    preLoaders: [
+    {
+      test: /\.js$/,
+      loaders: ['eslint'],
+      include: [
+      path.resolve(__dirname, "src"),
+      ],
+    }
+    ],
+    loaders: [
+    {
+      loaders: ['react-hot', 'babel-loader'],
+      include: [
+      path.resolve(__dirname, "src"),
+      ],
+      test: /\.js$/,
+      plugins: ['transform-runtime'],
+    },
+    {
+      test:   /\.css$/,
+      loader: "style-loader!css-loader!postcss-loader"
+    },
+    { test: /\.(woff|woff2|eot|ttf|svg)$/,  loader: "url" },
+    ]
+  },
+  postcss: function () {
+    return [autoprefixer, precss];
+  }
+}
