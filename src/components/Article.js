@@ -1,15 +1,14 @@
-import React, { PropTypes, Component } from 'react'
+import React, { PropTypes, Component } from 'react' 
+import { connect } from 'react-redux'
 
-export default class Article extends Component {
+class Article extends Component {
 	render() {
-		const { info, message, id, date } = this.props;
-		console.log(this.props);
 		return (
 		<div className='article'>
-			<div className="number col-md-1">{id}</div>
-			<div className="date col-md-2">{date}</div>
-			<div className="info col-md-3">{info}</div>
-			<div className="message col-md-3">{message}</div>
+			<div className="number col-md-1">{this.props.data.id}</div>
+			<div className="date col-md-2">{this.props.data.date}</div>
+			<div className="info col-md-3">{this.props.data.info}</div>
+			<div className="message col-md-3">{this.props.data.message}</div>
 			<div className="remove col-md-3">
 			<button type="button" className= "btn btn-danger">
 			Удалить
@@ -20,9 +19,17 @@ export default class Article extends Component {
 	}
 }
 
-Article.propTypes = {                               
+Article.propTypes = {
+	data: React.PropTypes.shape({                               
 		info: PropTypes.string.isRequired,
 		message: PropTypes.string.isRequired,
 		id: PropTypes.string.isRequired,
-		date: PropTypes.string.isRequired,
+		date: PropTypes.string.isRequired
+	})
 }
+function mapStateToProps (state) {
+	return {
+		article: state.article
+	}
+}
+export default connect(mapStateToProps)(Article)

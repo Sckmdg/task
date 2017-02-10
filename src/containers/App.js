@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Article from '../components/Article'
+import Recalls from '../components/Recalls'
 
 class App extends Component {
 	render() {
 		const { article } = this.props
 		return (
-			<Article name={article.id} />
+			<Recalls name={article.id} />
 			)
 	}
 }

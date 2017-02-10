@@ -1,7 +1,6 @@
-const initialState = {
-  name: 'Аноним'
-}
+import { combineReducers } from 'redux'
+import article from './article'
 
-export default function form(state = initialState) {
-  return state
-}
+export default combineReducers({
+	article
+})
