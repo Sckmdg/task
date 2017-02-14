@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react' // PropTypes,
 import { connect } from 'react-redux'
 import Article from './Article' 
 class Recalls extends Component {
@@ -24,9 +24,9 @@ class Recalls extends Component {
   }
 }
 
-Recalls.propTypes = {
-  data: PropTypes.array.isRequired
-}
+// Recalls.propTypes = {
+//   data: PropTypes.array.isRequired
+// }
 
 function mapStateToProps (state) {
   return {
