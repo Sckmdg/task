@@ -18,3 +18,21 @@ export function articlesLoadDataSuccess(articles) {
         articles
     };
 }
+
+export function articlesLoadData() { //Ахтунг => Тоже додумать и перепилить, не годится к черту
+    return (dispatch) => {
+        dispatch(articlesIsLoading(true))
+        .then((response) => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+
+            dispatch(articlesIsLoading(false));
+
+            return response;
+        })
+        .then((response) => response.json())
+        .then((articles) => dispatch(articlesLoadDataSuccess(articles)))
+        .catch(() => dispatch(articlesHasErrored(true)));
+    };
+}

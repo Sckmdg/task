@@ -20,8 +20,8 @@ export function articlesIsLoading(state = false, action) {
 
 export function articles(state = [], action) {
     switch (action.type) {
-        case 'ARTICLES_FETCH_DATA_SUCCESS':
-            return action.articles;
+        case 'ARTICLES_LOAD_DATA_SUCCESS':
+            return action.articles; // Ахтунг => надо додумать и запилить наконец
 
         default:
             return state;

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import $ from 'jquery';
 import { connect } from 'react-redux';
-
+import { articlesLoadData } from '../actions/articles';
 class ArticleList extends Component {
 	constructor(props) {
 		super(props);
@@ -40,9 +40,9 @@ class ArticleList extends Component {
 		// var info = this.props.data.info,
 		// message = this.props.data.message,
 		// id = this.props.data.id,
-		// date= this.props.data.date;
-		console.log(this);		
+		// date= this.props.data.date;	
 		var hide=this.state.hide;
+		
 		if (this.props.hasErrored) {
 			return <p>Ошибка во время загрузки</p>;
 		}
@@ -50,7 +50,7 @@ class ArticleList extends Component {
 		if (this.props.isLoading) {
 			return <p>Загрузка…</p>;
 		}
-
+		
 		return (
 			<div className='Recalls'>
 			{this.state.articles.map((article) => (
@@ -88,12 +88,26 @@ ArticleList.propTypes = {
 	})
 };
 
-const mapStateToProps = (state) => {
+// const mapStateToProps = (state) => {
+// 	return {
+// 		articles: state.articles,
+// 		hasErrored: state.articlesHasErrored,
+// 		isLoading: state.articlesIsLoading
+// 	};
+// };
+
+function mapStateToProps (state) {
 	return {
 		articles: state.articles,
 		hasErrored: state.articlesHasErrored,
 		isLoading: state.articlesIsLoading
-	};
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        LoadData: (data) => dispatch(articlesLoadData(data))
+    };
 };
 
-export default connect(mapStateToProps)(ArticleList);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleList);
