@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './css/style.css';
 import App from './containers/App';
 const store = configureStore();
-console.log("Store State", store.getState());
+setTimeout(console.log("Store State", store.getState()), 2000);
 render(
   <Provider store={store}>
     <App />

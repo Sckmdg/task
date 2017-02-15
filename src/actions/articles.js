@@ -12,29 +12,9 @@ export function articlesIsLoading(bool) {
     };
 }
 
-export function articlesLoadDataSuccess(items) {
+export function articlesLoadDataSuccess(articles) {
     return {
         type: 'ARTICLES_LOAD_DATA_SUCCESS',
-        items
-    };
-}
-
-export function articlesLoadData(url) {
-    return (dispatch) => {
-        dispatch(articlesIsLoading(true));
-
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-
-                dispatch(articlesIsLoading(false));
-
-                return response;
-            })
-            .then((response) => response.json())
-            .then((articles) => dispatch(articlesLoadDataSuccess(articles)))
-            .catch(() => dispatch(articlesHasErrored(true)));
+        articles
     };
 }

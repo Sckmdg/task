@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import $ from 'jquery';
 import { connect } from 'react-redux';
-import { articlesLoadData } from '../actions/articles';
 
 class ArticleList extends Component {
 	constructor(props) {
@@ -38,6 +37,11 @@ class ArticleList extends Component {
 	}
 
 	render() {
+		// var info = this.props.data.info,
+		// message = this.props.data.message,
+		// id = this.props.data.id,
+		// date= this.props.data.date;
+		console.log(this);		
 		var hide=this.state.hide;
 		if (this.props.hasErrored) {
 			return <p>Ошибка во время загрузки</p>;
@@ -75,7 +79,13 @@ class ArticleList extends Component {
 
 ArticleList.propTypes = {
 	hasErrored: PropTypes.bool.isRequired,
-	isLoading: PropTypes.bool.isRequired
+	isLoading: PropTypes.bool.isRequired,
+	data: React.PropTypes.shape({                               
+		info: PropTypes.string.isRequired,
+		message: PropTypes.string.isRequired,
+		id: PropTypes.string.isRequired,
+		date: PropTypes.string.isRequired
+	})
 };
 
 const mapStateToProps = (state) => {
@@ -86,10 +96,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		LoadData: (url) => dispatch(articlesLoadData(url))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleList);
+export default connect(mapStateToProps)(ArticleList);

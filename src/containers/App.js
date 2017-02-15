@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import Form from '../components/Form'
+import { connect } from 'react-redux'
 import ArticleList from '../components/ArticleList'
 
-
-export default class App extends Component {
-
+class App extends Component {
 	render() {
+		//const { article } = this.props
 		return (
 			<div className='app'>
 			<ArticleList />
@@ -14,3 +14,11 @@ export default class App extends Component {
 			)
 	}
 }
+
+function mapStateToProps (state) {
+	return {
+		article: state.article
+	}
+}
+
+export default connect(mapStateToProps)(App)
