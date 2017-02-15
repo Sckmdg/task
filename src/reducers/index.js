@@ -1,15 +1,8 @@
-import { combineReducers } from 'redux'
-import article from './article'
+import { combineReducers } from 'redux';
+import { articles, articlesHasErrored, articlesIsLoading } from './articles';
 
 export default combineReducers({
-	article
-})
-
-// import { combineReducers } from 'redux'
-// import { articles, articlesHasErrored, articlesIsLoading } from './article'
-
-// export default combineReducers({
-// 	articles,
-// 	itemsHasErrored,
-// 	itemsIsLoading
-// })
+    articles,
+    articlesHasErrored,
+    articlesIsLoading
+});
