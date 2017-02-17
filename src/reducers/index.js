@@ -1,12 +1,8 @@
-import { combineReducers } from 'redux';
-import { articles, articlesHasErrored, articlesIsLoading } from './articles';
-import { test, loadData, eraseData } from './test'
+import { combineReducers } from 'redux'
+import { article, articleHasErrored, articleIsLoading} from './article'
 
 export default combineReducers({
-	test,
-	loadData,
-	eraseData,
-	articles,
-	articlesHasErrored,
-	articlesIsLoading
-});
+	article,
+	articleHasErrored,
+	articleIsLoading
+})
