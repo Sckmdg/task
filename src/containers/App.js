@@ -1,3 +1,6 @@
+/**
+*Compose our components
+*/
 import React, { Component } from 'react'
 import ArticleList from '../components/articleList'
 
